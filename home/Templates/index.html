@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Management - Book Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Book an Appointment</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label for="doctor">Doctor</label>
+    <select name="doctor" required>
+        {% for d in doctor %}
+            <option value="{{ d.id }}">{{ d.name }} ({{ d.specialization }})</option>
+        {% endfor %}
+    </select>
+
+    <label for="slot">Slot</label>
+    <select name="slot" required>
+        {% for s in slot %}
+            <option value="{{ s.id }}">{{ s.start_time }} - {{ s.end_time }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="name">Patient Name</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender" required>
+        <option value="">-- Select Gender --</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="O">Other</option>
+    </select>
+
+    <label for="phone_no">Phone Number</label>
+    <input type="text" name="phone_no" id="phone_no" maxlength="10" required>
+
+    <label for="age">Age</label>
+    <input type="text" name="age" id="age" max="0" maxlength="2" required>
+
+    <label for="date">Appointment Date</label>
+    <input type="date" name="date" id="date" required>
+
+    <label for="reason">Reason for Visit</label>
+    <textarea name="reason" id="reason" maxlength="500" required></textarea>
+
+    <button type="submit">Book Appointment</button>
+</form>
+
+</body>
+</html>
+
+
+
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2 class="text-success">Appointment Booked Successfully</h2>
+        <hr>
+        <p><strong>Patient:</strong> {{ booking.patient.name }}</p>
+        <p><strong>Phone:</strong> {{ booking.patient.phone_no }}</p>
+        <p><strong>Doctor:</strong> {{ booking.doctor.name }}</p>
+        <p><strong>Specialization:</strong> {{ booking.doctor.specialization }}</p>
+        <p><strong>Date:</strong> {{ booking.date }}</p>
+        <p><strong>Slot:</strong> {{ booking.slot.start_time }} - {{ booking.slot.end_time }}</p>
+        <p><strong>Reason:</strong> {{ booking.reason }}</p>
+        <p><strong>Booking Created At:</strong> {{ booking.created_at|date:"Y-m-d H:i:s" }}</p>
+    </div>
+</div>
