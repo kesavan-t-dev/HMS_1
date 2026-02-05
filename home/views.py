@@ -3,10 +3,6 @@ from .models import doctors, slots, patients, mapping
 from django.db.models import Count
 from datetime import date
 
-def root_redirect(request):
-    return redirect('home')  
-
-
 def book_appointment(request):
     doctor_list = doctors.objects.all()
     slot_list = slots.objects.all()
