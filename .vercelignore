@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env.local
+.env.*.local
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.venv
+venv
+env
+manage.py
