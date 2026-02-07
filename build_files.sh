@@ -1,2 +1,2 @@
-pip install -r requirement.txt
+pip install --break-system-packages -r requirement.txt
 python manage.py collectstatic --noinput

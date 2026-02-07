@@ -3,3 +3,4 @@ venv
 .env
 .vercelignore
 build_files.sh
+FIX_BUILD_ERROR
