@@ -39,6 +39,7 @@ class patients(models.Model):
         return f"{self.name} ({self.phone_no})"
 
 
+
 class mapping(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patient = models.ForeignKey(patients, on_delete=models.CASCADE)
@@ -46,9 +47,13 @@ class mapping(models.Model):
     slot = models.ForeignKey(slots, on_delete=models.CASCADE)
     date = models.DateField()
     reason = models.TextField(max_length=500)
+    is_booked = models.BooleanField(default=True)  
     created_at = models.DateTimeField(auto_now_add=True)
-
-
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['doctor', 'date', 'slot'], name='unique_doctor_date_slot')
+        ]
+        
     def __str__(self):
         return f"{self.patient.name} → {self.doctor.name} on {self.date}"
 

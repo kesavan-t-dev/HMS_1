@@ -1,25 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Booking Success</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Booking Confirmed</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
-<div class="container mt-4 d-flex align-items-center justify-content-center">
-    <div class="card p-5 w-50">
-        <h2 class="text-success">Appointment Booked Successfully</h2>
-        <hr>
-        <p><strong>Patient:</strong> {{ booking.patient.name }}</p>
-        <p><strong>Phone:</strong> {{ booking.patient.phone_no }}</p>
-        <p><strong>Doctor:</strong> {{ booking.doctor.name }}</p>
-        <p><strong>Specialization:</strong> {{ booking.doctor.specialization }}</p>
-        <p><strong>Date:</strong> {{ booking.date }}</p>
-        <p><strong>Slot:</strong> {{ booking.slot.start_time }} - {{ booking.slot.end_time }}</p>
-        <p><strong>Reason:</strong> {{ booking.reason }}</p>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card ">
+                <div class="card-header bg-success text-white">
+                    
+                    <h4 class="mb-0">Appointment Confirmed</h4>
+                </div>
+                <div class="card-body">
+                    <p class="row justify-content-center">Your appointment has been booked successfully.</p>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Patient:</strong> {{ booking.patient.name }}</li>
+                        <li class="list-group-item"><strong>Phone:</strong> {{ booking.patient.phone_no }}</li>
+                        <li class="list-group-item"><strong>Doctor:</strong> {{ booking.doctor.name }}</li>
+                        <li class="list-group-item"><strong>Specialization:</strong> {{ booking.doctor.specialization}}</li>
+                        <li class="list-group-item"><strong>Date:</strong> {{ booking.date }}</li>
+                        <li class="list-group-item"><strong>Time:</strong> {{ booking.slot.start_time }} - {{ booking.slot.end_time }}</li>
+                        <li class="list-group-item"><strong>Reason:</strong> {{ booking.reason|default:"-" }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
 
 </body>
 </html>

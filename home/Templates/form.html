@@ -1,87 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>HMS Booking</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>HMS Appointment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light">
 
-<h1 style="text-align: center;"> HMS Appointment Booking</h1>
-
-<div class="container mt-4 p-3 w-25">
-    <form method="POST" class="card p-4 ">
-        {% csrf_token %}
-
-        <h4>Patient Details</h4>
-        <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <input type="text" name="phone_no" class="form-control"  maxlength="10" required>
+<div class="container mt-5 w-25">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Book Appointment</h4>
         </div>
+        <div class="card-body">
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
 
-        <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" name="name" class="form-control" required>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Patient Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Gender:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="genderMale" value="M" required>
+                        <label class="form-check-label" for="genderMale">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="F">
+                        <label class="form-check-label" for="genderFemale">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="genderOther" value="O">
+                        <label class="form-check-label" for="genderOther">Other</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Age</label>
+                    <input type="text" name="age" class="form-control" maxlength="2">
+                </div>
+
+                <div class="mb-3">
+                    <label for="doctor" class="form-label">Select Doctor</label>
+                    <select id="doctor" name="doctor" class="form-select" required>
+                        <option value="">-- Select Doctor --</option>
+                        {% for doc in doctor %}
+                            <option value="{{ doc.id }}">{{ doc.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Select Date</label>
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="slot" class="form-label">Select Slot</label>
+                    <select id="slot" name="slot" class="form-select" required disabled>
+                        <option value="">-- Select Slot --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Visit</label>
+                    <textarea id="reason" name="reason" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </div>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Gender</label>
-            <select name="gender" class="form-select" required>
-                <option value="">-- Select Gender --</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="O">Other</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Age</label>
-            <input type="text" name="age" class="form-control" maxlength="2">
-        </div>
-
-        <h4>Appointment Details</h4>
-        <div class="mb-3">
-            <label class="form-label">Select Doctor</label>
-            <select name="doctor" class="form-select" required>
-                <option value="">-- Select Doctor --</option>
-                {% for d in doctor %}
-                    <option value="{{ d.id }}">{{ d.name }} ({{ d.specialization }})</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Date</label>
-            <input type="date" name="date" class="form-control" value="{{ selected_date }}">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Select Slot</label>
-            <select name="slot" class="form-select" required>
-                <option value="">-- Select Slot --</option>
-                {% for s in slots %}
-                    {% if s.id in booked_slots %}
-                        <option value="" disabled class="text-muted">
-                            {{ s.start_time }} - {{ s.end_time }} (Booked)
-                        </option>
-                    {% else %}
-                        <option value="{{ s.id }}">
-                            {{ s.start_time }} - {{ s.end_time }}
-                        </option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Reason</label>
-            <textarea name="reason" class="form-control"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Book Appointment</button>
-    </form>
+    </div>
 </div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const date_input = document.getElementById("date");
+  const doctor_select = document.getElementById("doctor");
+  const slot_select = document.getElementById("slot");
+
+  function set_single_option(message, disabled) {
+    slot_select.innerHTML = "";
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = message;
+    slot_select.appendChild(opt);
+    slot_select.disabled = disabled;
+  }
+
+  function get_selected_values() {
+    return {
+      date_val: date_input.value,
+      doctor_id: doctor_select.value
+    };
+  }
+
+  function can_fetch() {
+    const v = get_selected_values();
+    return Boolean(v.date_val && v.doctor_id);
+  }
+
+  function render_slots(data) {
+    const slots = Array.isArray(data.slots) ? data.slots : [];
+    const unavailable_set = new Set((data.unavailable || []).map(String));
+    const slot_full_set = new Set((data.slot_full || []).map(String));
+
+    if (slots.length === 0) {
+      set_single_option("No slots configured", true);
+      return;
+    }
+
+    slot_select.innerHTML = "";
+    slot_select.disabled = false;
+
+    const default_opt = document.createElement("option");
+    default_opt.value = "";
+    default_opt.textContent = "-- Select Slot --";
+    slot_select.appendChild(default_opt);
+
+    let available_count = 0;
+
+    slots.forEach(function (s) {
+      const slot_id = String(s.id);
+      const opt = document.createElement("option");
+      opt.value = slot_id;
+      opt.textContent = `${s.start_time} - ${s.end_time}`;
+
+      if (slot_full_set.has(slot_id)) {
+        opt.disabled = true;
+        opt.textContent += " (Full)";
+      } else if (unavailable_set.has(slot_id)) {
+        opt.disabled = true;
+        opt.textContent += " (Booked)";
+      } else {
+        available_count += 1;
+      }
+
+      slot_select.appendChild(opt);
+    });
+
+    if (available_count === 0) {
+      set_single_option("No slots are available", true);
+    }
+  }
+
+  function fetch_availability_if_ready() {
+    if (!can_fetch()) {
+      set_single_option("-- Select doctor and date first --", true);
+      return;
+    }
+
+    const v = get_selected_values();
+    set_single_option("Loading slots...", true);
+
+    const url = `/ajax/slot-availability/?date=${encodeURIComponent(v.date_val)}&doctor=${encodeURIComponent(v.doctor_id)}`;
+
+    fetch(url)
+      .then(function (res) { return res.json(); })
+      .then(function (data) { render_slots(data); })
+      .catch(function () { set_single_option("Error loading slots", true); });
+  }
+
+  set_single_option("-- Select doctor and date first --", true);
+
+  date_input.addEventListener("change", fetch_availability_if_ready);
+  doctor_select.addEventListener("change", fetch_availability_if_ready);
+});
+</script>
 
 </body>
 </html>
-
-
