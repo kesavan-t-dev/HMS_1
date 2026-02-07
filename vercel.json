@@ -20,6 +20,14 @@
       "dest": "/static/$1"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "/static/favicon.ico"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/static/robots.txt"
+    },
+    {
       "src": "/(.*)",
       "dest": "hms/wsgi.py"
     }
